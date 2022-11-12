@@ -21,9 +21,8 @@ char pass[] = "9448371334";
 #include <DHT.h>  
 #include <IRremote.h>
 
-#define DHTPIN              D4 //D4  pin connected with DHT
-#define IR_RECV_PIN         10 // SD2 (IR receiver pin)
-
+#define DHTPIN              D4 
+#define IR_RECV_PIN         10 
 
 
 IRrecv irrecv(IR_RECV_PIN);
@@ -41,7 +40,7 @@ decode_results results;
 
 #define wifiLed   16   //D0
 
-//Change the virtual pins according the rooms
+
 #define VPIN_BUTTON_1    V1 
 #define VPIN_BUTTON_2    V2
 #define VPIN_BUTTON_3    V3 
@@ -51,13 +50,12 @@ decode_results results;
 #define VPIN_TEMPERATURE V6
 #define VPIN_HUMIDITY    V7
 
-// Relay State
-bool toggleState_1 = LOW; //Define integer to remember the toggle state for relay 1
-bool toggleState_2 = LOW; //Define integer to remember the toggle state for relay 2
-bool toggleState_3 = LOW; //Define integer to remember the toggle state for relay 3
-bool toggleState_4 = LOW; //Define integer to remember the toggle state for relay 4
 
-// Switch State
+bool toggleState_1 = LOW; 
+bool toggleState_2 = LOW; 
+bool toggleState_3 = LOW; 
+bool toggleState_4 = LOW; 
+
 bool SwitchState_1 = LOW;
 bool SwitchState_2 = LOW;
 bool SwitchState_3 = LOW;
@@ -70,9 +68,7 @@ float humidity1   = 0;
 char auth[] = BLYNK_AUTH_TOKEN;
 
 BlynkTimer timer;
-// DHT dht(DHTPIN, DHTTYPE);
 
-// When App button is pushed - switch the state
 
 BLYNK_WRITE(VPIN_BUTTON_1) {
   toggleState_1 = param.asInt();
@@ -149,31 +145,7 @@ BLYNK_CONNECTED() {
     Blynk.syncVirtual(VPIN_HUMIDITY);  
 }
 
-// void readSensor(){
-  
-//   float h = dht.readHumidity();
-//   float t = dht.readTemperature(); // or dht.readTemperature(true) for Fahrenheit
-  
-//   if (isnan(h) || isnan(t)) {
-//     Serial.println("Failed to read from DHT sensor!");
-//     return;
-//   }
-//   else {
-//     humidity1 = h;
-//     temperature1 = t;
-//    // Serial.println(temperature1);
-//    // Serial.println(humidity1);
-//   }  
-// }
 
-// void sendSensor()
-// {
-//   readSensor();
-//   // You can send any value at any time.
-//   // Please don't send more that 10 values per second.
-//   Blynk.virtualWrite(VPIN_HUMIDITY, humidity1);
-//   Blynk.virtualWrite(VPIN_TEMPERATURE, temperature1);
-// }
 
 void ir_remote(){
   if (irrecv.decode(&results)) {
@@ -214,64 +186,7 @@ void ir_remote(){
   } 
 }
 
-void manual_control()
-{
-  // if (digitalRead(SwitchPin1) == LOW && SwitchState_1 == LOW) {
-  //   digitalWrite(RelayPin1, LOW);
-  //   toggleState_1 = HIGH;
-  //   SwitchState_1 = HIGH;
-  //   Blynk.virtualWrite(VPIN_BUTTON_1, toggleState_1);
-  //   Serial.println("Switch-1 on");
-  // }
-  // if (digitalRead(SwitchPin1) == HIGH && SwitchState_1 == HIGH) {
-  //   digitalWrite(RelayPin1, HIGH);
-  //   toggleState_1 = LOW;
-  //   SwitchState_1 = LOW;
-  //   Blynk.virtualWrite(VPIN_BUTTON_1, toggleState_1);
-  //   Serial.println("Switch-1 off");
-  // }
-  // if (digitalRead(SwitchPin2) == LOW && SwitchState_2 == LOW) {
-  //   digitalWrite(RelayPin2, LOW);
-  //   toggleState_2 = HIGH;
-  //   SwitchState_2 = HIGH;
-  //   Blynk.virtualWrite(VPIN_BUTTON_2, toggleState_2);
-  //   Serial.println("Switch-2 on");
-  // }
-  // if (digitalRead(SwitchPin2) == HIGH && SwitchState_2 == HIGH) {
-  //   digitalWrite(RelayPin2, HIGH);
-  //   toggleState_2 = LOW;
-  //   SwitchState_2 = LOW;
-  //   Blynk.virtualWrite(VPIN_BUTTON_2, toggleState_2);
-  //   Serial.println("Switch-2 off");
-  // }
-  // if (digitalRead(SwitchPin3) == LOW && SwitchState_3 == LOW) {
-  //   digitalWrite(RelayPin3, LOW);
-  //   toggleState_3 = HIGH;
-  //   SwitchState_3 = HIGH;
-  //   Blynk.virtualWrite(VPIN_BUTTON_3, toggleState_3);
-  //   Serial.println("Switch-3 on");
-  // }
-  // if (digitalRead(SwitchPin3) == HIGH && SwitchState_3 == HIGH) {
-  //   digitalWrite(RelayPin3, HIGH);
-  //   toggleState_3 = LOW;
-  //   SwitchState_3 = LOW;
-  //   Blynk.virtualWrite(VPIN_BUTTON_3, toggleState_3);
-  //   Serial.println("Switch-3 off");
-  // }
-  // if (digitalRead(SwitchPin4) == LOW && SwitchState_4 == LOW) {
-  //   digitalWrite(RelayPin4, LOW);
-  //   toggleState_4 = HIGH;
-  //   SwitchState_4 = HIGH;
-  //   Blynk.virtualWrite(VPIN_BUTTON_4, toggleState_4);
-  //   Serial.println("Switch-4 on");
-  // }
-  // if (digitalRead(SwitchPin4) == HIGH && SwitchState_4 == HIGH) {
-  //   digitalWrite(RelayPin4, HIGH);
-  //   toggleState_4 = LOW;
-  //   SwitchState_4 = LOW;
-  //   Blynk.virtualWrite(VPIN_BUTTON_4, toggleState_4);
-  //   Serial.println("Switch-4 off");
-  // }
+
 }  
 
 void setup()
@@ -303,8 +218,7 @@ void setup()
 
   //Blynk.begin(auth, ssid, pass);
   WiFi.begin(ssid, pass);
-  timer.setInterval(2000L, checkBlynkStatus); // check if Blynk server is connected every 2 seconds
-  //timer.setInterval(1000L, sendSensor); // Sending Sensor Data to Blynk Cloud every 1 second
+  timer.setInterval(2000L, checkBlynkStatus);
   Blynk.config(auth);
   delay(1000);
   
